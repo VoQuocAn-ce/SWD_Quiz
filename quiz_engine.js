@@ -117,6 +117,11 @@
       if (mode === 'review') {
         reviewBanner.style.display = 'flex';
         document.getElementById('review-count-text').textContent = `Đang ôn tập ${currentList.length} câu đã từng làm sai`;
+      } else if (mode === 'answers') {
+        reviewBanner.style.display = 'flex';
+        reviewBanner.style.background = 'linear-gradient(135deg, #16a085, #0e6251)';
+        reviewBanner.style.borderColor = '#a3e4d7';
+        document.getElementById('review-count-text').innerHTML = `<strong>📖 BÍ KÍP TRA CỨU:</strong> Đang xem trước toàn bộ ${currentList.length} đáp án & tâm pháp luận giải chuẩn xác.`;
       } else {
         reviewBanner.style.display = 'none';
       }
@@ -132,7 +137,7 @@
     // Update Header / Index
     const qIndexEl = document.getElementById('q-index-display');
     if (qIndexEl) {
-      qIndexEl.innerHTML = `<span>⚔️</span> ${mode === 'review' ? 'Tâm Ma' : 'Bí Cảnh'} Tầng ${currentIndex + 1} / ${currentList.length} (Gốc #Q${q.id})`;
+      qIndexEl.innerHTML = `<span>⚔️</span> ${mode === 'review' ? 'Tâm Ma' : (mode === 'answers' ? 'Bí Kíp' : 'Bí Cảnh')} Tầng ${currentIndex + 1} / ${currentList.length} (Gốc #Q${q.id})`;
     }
 
     const topicEl = document.getElementById('q-topic-display');
@@ -195,9 +200,10 @@
     const optionsContainer = document.getElementById('options-container');
     if (optionsContainer) {
       optionsContainer.innerHTML = '';
-      const selected = userAnswers[q.id];
+      const isAnswersMode = mode === 'answers';
+      const selected = isAnswersMode ? q.answer : userAnswers[q.id];
       const hasAnswered = selected !== undefined;
-      const revealAnswer = (mode === 'practice' && hasAnswered) || (mode === 'review' && hasAnswered) || isSubmitted;
+      const revealAnswer = isAnswersMode || (mode === 'practice' && hasAnswered) || (mode === 'review' && hasAnswered) || isSubmitted;
 
       q.options.forEach(opt => {
         const item = document.createElement('div');
@@ -222,7 +228,7 @@
           <div class="option-sword-icon">🗡️</div>
         `;
 
-        if (!revealAnswer || (mode === 'exam' && !isSubmitted)) {
+        if (mode !== 'answers' && (!revealAnswer || (mode === 'exam' && !isSubmitted))) {
           item.addEventListener('click', () => handleSelectOption(q, opt.key));
         }
 
@@ -235,7 +241,7 @@
     const hintText = document.getElementById('hint-text');
     if (hintBox && hintText) {
       hintText.textContent = q.hint;
-      if (openedHints.has(q.id)) {
+      if (mode === 'answers' || openedHints.has(q.id)) {
         hintBox.classList.add('show');
       } else {
         hintBox.classList.remove('show');
@@ -427,17 +433,21 @@
         btn.classList.add('current');
       }
 
-      const ans = userAnswers[q.id];
-      if (ans !== undefined) {
-        if (mode === 'practice' || mode === 'review' || isSubmitted) {
-          if (ans === q.answer) {
-            btn.classList.add('correct');
+      if (mode === 'answers') {
+        btn.classList.add('answered', 'correct');
+      } else {
+        const ans = userAnswers[q.id];
+        if (ans !== undefined) {
+          if (mode === 'practice' || mode === 'review' || isSubmitted) {
+            if (ans === q.answer) {
+              btn.classList.add('correct');
+            } else {
+              btn.classList.add('wrong');
+            }
           } else {
-            btn.classList.add('wrong');
+            btn.style.background = '#2cb5bc';
+            btn.style.color = '#fff';
           }
-        } else {
-          btn.style.background = '#2cb5bc';
-          btn.style.color = '#fff';
         }
       }
 
@@ -452,6 +462,17 @@
 
   // Update Progress & Live Cultivation Realm
   function updateProgress() {
+    if (mode === 'answers') {
+      const bar = document.getElementById('progress-bar-fill');
+      if (bar) bar.style.width = '100%';
+      const realmTitleEl = document.getElementById('realm-title-display');
+      const realmPercentEl = document.getElementById('realm-percent-display');
+      if (realmTitleEl) realmTitleEl.textContent = 'Đại Viên Mãn (Thông Tri Đạo Pháp)';
+      if (realmPercentEl) realmPercentEl.textContent = `100% (${currentList.length}/${currentList.length})`;
+      const liveScoreEl = document.getElementById('live-score-display');
+      if (liveScoreEl) liveScoreEl.textContent = `${currentIndex + 1}/${currentList.length} Tra Cứu`;
+      return;
+    }
     let answeredCount = 0;
     let correctCount = 0;
 
@@ -497,7 +518,11 @@
     }
     if (nextBtn) {
       if (currentIndex === currentList.length - 1) {
-        nextBtn.innerHTML = `Hoàn Tất <span>🏁</span>`;
+        if (mode === 'answers') {
+          nextBtn.innerHTML = `Về Kiếm Các <span>🚪</span>`;
+        } else {
+          nextBtn.innerHTML = `Hoàn Tất <span>🏁</span>`;
+        }
       } else {
         nextBtn.innerHTML = `Tầng Kế <span>🗡️</span>`;
       }
@@ -733,11 +758,36 @@
     if (btnNext) btnNext.addEventListener('click', nextQuestion);
 
     const btnSubmit = document.getElementById('btn-submit-quiz');
-    if (btnSubmit) btnSubmit.addEventListener('click', () => {
-      if (confirm("Đạo hữu có chắc chắn muốn nộp bài kết thúc thí luyện?")) {
-        finishQuiz();
+    if (btnSubmit) {
+      if (mode === 'answers') {
+        btnSubmit.innerHTML = '🗡️ Vào Làm Đề Này';
+        btnSubmit.style.background = 'linear-gradient(135deg, #16a085, #0e6251)';
+        btnSubmit.style.borderColor = '#a3e4d7';
+        btnSubmit.addEventListener('click', () => {
+          window.location.href = `quiz.html?quiz=${quizId}&mode=practice`;
+        });
+      } else {
+        btnSubmit.addEventListener('click', () => {
+          if (confirm("Đạo hữu có chắc chắn muốn nộp bài kết thúc thí luyện?")) {
+            finishQuiz();
+          }
+        });
       }
-    });
+    }
+
+    const btnToggleAnswers = document.getElementById('btn-toggle-answers-mode');
+    if (btnToggleAnswers) {
+      if (mode === 'answers') {
+        btnToggleAnswers.innerHTML = '<span>🗡️</span> Bắt Đầu Tự Làm Đề Này';
+        btnToggleAnswers.style.background = '#eafaf1';
+        btnToggleAnswers.style.borderColor = '#2ecc71';
+        btnToggleAnswers.style.color = '#145a32';
+        btnToggleAnswers.href = `quiz.html?quiz=${quizId}&mode=practice`;
+      } else {
+        btnToggleAnswers.innerHTML = '<span>📜</span> Xem Toàn Bộ Đáp Án & Luận Giải';
+        btnToggleAnswers.href = `quiz.html?quiz=${quizId}&mode=answers`;
+      }
+    }
 
     // Modal buttons
     const btnModalReview = document.getElementById('btn-modal-review');

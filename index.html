@@ -890,6 +890,49 @@
     </div>
   </div>
 
+  <!-- Modal Xem Trước Toàn Bộ Đáp Án & Luận Giải Cho Từng Quiz -->
+  <div class="modal-backdrop" id="answers-preview-modal">
+    <div class="cultivation-scroll-modal" style="max-width: 920px; width: 95%; text-align: left; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; padding: 24px 26px;">
+      <!-- Modal Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #16a085; padding-bottom: 12px; margin-bottom: 12px; flex-shrink: 0;">
+        <div>
+          <h3 style="color: #0e6251; font-family: var(--font-heading); font-size: 1.4rem; display: flex; align-items: center; gap: 8px; margin: 0;">
+            <span>📜</span> <span id="preview-modal-title">BÍ KÍP ĐÁP ÁN: QUIZ 1</span>
+          </h3>
+          <p id="preview-modal-subtitle" style="font-size: 0.88rem; color: #555; margin: 4px 0 0 0;"></p>
+        </div>
+        <button class="btn-cultivation" id="btn-close-preview-modal" style="padding: 5px 14px; font-size: 0.85rem; background: #fff; cursor: pointer;">Đóng ✕</button>
+      </div>
+
+      <!-- Search Box & Filter Bar -->
+      <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0; align-items: center;">
+        <input type="text" id="preview-search-input" placeholder="🔍 Tìm kiếm từ khóa, câu hỏi, hoặc khái niệm trong đề này..." 
+               style="flex: 1; padding: 9px 14px; border: 1.5px solid #2cb5bc; border-radius: 10px; font-size: 0.92rem; outline: none; background: #fff;">
+        <button class="btn-cultivation" id="btn-expand-all-explanations" style="padding: 8px 12px; font-size: 0.82rem; white-space: nowrap; cursor: pointer;">
+          📖 Mở Rộng Tất Cả
+        </button>
+      </div>
+
+      <!-- Modal Body (Questions & Answers List) -->
+      <div class="wrong-list-modal-body" id="preview-list-modal-body" style="flex: 1; overflow-y: auto; padding-right: 8px; margin: 0;">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #ccc; flex-shrink: 0;">
+        <span id="preview-modal-footer-count" style="font-weight: 700; color: #16a085; font-size: 0.88rem;"></span>
+        <div style="display: flex; gap: 10px;">
+          <a href="#" id="btn-open-fullscreen-preview" class="btn-cultivation" style="background: #e8f8f5; border-color: #16a085; color: #0e6251; text-decoration: none;">
+            <span>📖</span> Mở Toàn Màn Hình
+          </a>
+          <a href="#" id="btn-start-practice-from-modal" class="btn-cultivation primary" style="background: linear-gradient(135deg, #16a085, #0e6251); border-color: #a3e4d7; text-decoration: none;">
+            <span>🗡️</span> Bắt Đầu Tự Do Luyện Tập
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="quiz1_data.js"></script>
   <script src="quiz2_data.js"></script>
@@ -1118,7 +1161,192 @@
           modalBody.appendChild(div);
         });
       }
-    });
+    
+
+      // ==========================================
+      // XEM TRƯỚC ĐÁP ÁN MỖI QUIZ (PREVIEW MODAL)
+      // ==========================================
+      const previewModal = document.getElementById('answers-preview-modal');
+      const btnClosePreview = document.getElementById('btn-close-preview-modal');
+      const previewTitle = document.getElementById('preview-modal-title');
+      const previewSubtitle = document.getElementById('preview-modal-subtitle');
+      const previewBody = document.getElementById('preview-list-modal-body');
+      const previewFooterCount = document.getElementById('preview-modal-footer-count');
+      const previewSearch = document.getElementById('preview-search-input');
+      const btnFullscreen = document.getElementById('btn-open-fullscreen-preview');
+      const btnStartPractice = document.getElementById('btn-start-practice-from-modal');
+      const btnExpandAll = document.getElementById('btn-expand-all-explanations');
+
+      let currentQuizNum = 1;
+      let allExpanded = false;
+
+      const QUIZ_NAMES = {
+        1: "Software Architecture & UML Modeling (60 câu)",
+        2: "Summer 2025 Final Exam (SU25 - FE4148)",
+        3: "Software Design Concepts & Architecture Principles",
+        4: "Requirements Capture, Use Cases & Structural Design",
+        5: "Spring 2025 Final Exam (SP25 - FE4082)",
+        6: "Spring 2025 Resit Exam (SP25 - RE4132)",
+        7: "Fall 2024 Final Exam (FA24 - FE3001)",
+        8: "Summer 2024 Final Exam (SU24 - FE2316)",
+        9: "Spring 2024 Final Exam (SP24 - FE1619)",
+        10: "Dynamic Interaction Modeling & Statecharts",
+        11: "Đề Thi Fall 2024 Final Exam (FA24 - FE3001)",
+        12: "Đề Thi Summer 2024 Final Exam (SU24 - FE2316)",
+        13: "Đề Thi Spring 2024 Final Exam (SP24 - FE1619)",
+        14: "Đề Thi Fall 2024 Block 5 (FA24 - FE3238)",
+        15: "Đề Thi Lại Spring 2024 (SP24 - RE1692)",
+        16: "Đề Thi Lại Summer 2024 (SU24 - RE2471)",
+        17: "Đề Thi Fall 2022 Final Exam (FA22 - FE165)",
+        18: "Đề Thi Lại Fall 2023 (FA23 - RE1142)",
+        19: "Đề Thi Fall 2023 Final Exam (FA23 - FE1069)",
+        20: "Đề Thi Summer 2023 Final Exam (SU23 - FE412 - 64 câu)",
+        21: "Đề Thi Spring 2023 Final Exam (SP23 - FE399)",
+        22: "Đề Thi Summer 2023 Block 10W (SU23 - FE355)"
+      };
+
+      function openAnswersPreview(quizNum) {
+        currentQuizNum = quizNum;
+        const qData = window['QUIZ' + quizNum + '_DATA'] || [];
+        
+        previewTitle.textContent = `BÍ KÍP ĐÁP ÁN: QUIZ ${quizNum}`;
+        previewSubtitle.textContent = QUIZ_NAMES[quizNum] || `Đề thi trắc nghiệm Bí Cảnh Tầng ${quizNum}`;
+        btnFullscreen.href = `quiz.html?quiz=${quizNum}&mode=answers`;
+        btnStartPractice.href = `quiz.html?quiz=${quizNum}&mode=practice`;
+        previewSearch.value = '';
+        allExpanded = false;
+        btnExpandAll.textContent = '📖 Mở Rộng Tất Cả';
+
+        renderPreviewList(qData);
+        previewModal.classList.add('show');
+      }
+
+      function renderPreviewList(qData, filterText = '') {
+        previewBody.innerHTML = '';
+        const searchLow = filterText.toLowerCase().trim();
+        const filtered = qData.filter(q => {
+          if (!searchLow) return true;
+          const matchQ = (q.question || '').toLowerCase().includes(searchLow);
+          const matchOpt = (q.options || []).some(o => (o.text || '').toLowerCase().includes(searchLow));
+          const matchExp = q.explanation ? (q.explanation.summary || '').toLowerCase().includes(searchLow) : false;
+          return matchQ || matchOpt || matchExp;
+        });
+
+        previewFooterCount.textContent = `Hiển thị ${filtered.length} / ${qData.length} câu hỏi chuẩn xác`;
+
+        if (filtered.length === 0) {
+          previewBody.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: #7f8c8d;">
+              <div style="font-size: 38px; margin-bottom: 8px;">🔍</div>
+              <p>Không tìm thấy câu hỏi nào phù hợp với từ khóa "<strong>${filterText}</strong>".</p>
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(q => {
+          const card = document.createElement('div');
+          card.className = 'wrong-card-item preview-question-card';
+          card.style.cssText = 'border-left: 4px solid #16a085; background: #fff; margin-bottom: 16px; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);';
+
+          const optionsHtml = (q.options || []).map(opt => {
+            const isCorrect = opt.key === q.answer;
+            return `
+              <div style="padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; line-height: 1.4; display: flex; gap: 8px; align-items: flex-start; ${isCorrect ? 'background: #e8f8f5; border: 1.5px solid #2ecc71; color: #0e6251; font-weight: 700;' : 'background: #f8f9fa; border: 1px solid #e2e8f0; color: #4a5568;'}">
+                <span style="font-weight: 800; min-width: 24px;">[${opt.key}]</span>
+                <span style="flex: 1;">${opt.text}</span>
+                ${isCorrect ? '<span style="color: #27ae60; font-weight: 800; font-size: 0.8rem; background: #d4efdf; padding: 2px 8px; border-radius: 6px;">✓ ĐÚNG</span>' : ''}
+              </div>
+            `;
+          }).join('');
+
+          const expSummary = q.explanation ? q.explanation.summary : '';
+          const expBreakdown = q.explanation && q.explanation.breakdown ? q.explanation.breakdown : null;
+
+          let breakdownHtml = '';
+          if (expBreakdown) {
+            breakdownHtml = Object.entries(expBreakdown).map(([k, text]) => {
+              const isCor = k === q.answer;
+              return `<div style="font-size: 0.84rem; margin-top: 4px; padding-left: 8px; border-left: 2px solid ${isCor ? '#27ae60' : '#e74c3c'}; color: ${isCor ? '#145a32' : '#78281f'};"><strong>[${k}]:</strong> ${text}</div>`;
+            }).join('');
+          }
+
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <span style="font-weight: 800; color: #16a085; font-size: 0.95rem;">⚡ Tầng Câu Hỏi #${q.id}</span>
+              <span style="background: #e8f8f5; border: 1px solid #a3e4d7; color: #0e6251; font-weight: 800; font-size: 0.8rem; padding: 3px 12px; border-radius: 12px;">
+                ✓ Đáp Án Tiêu Chuẩn: [${q.answer}]
+              </span>
+            </div>
+            <h5 style="font-size: 1.02rem; font-weight: 700; color: #112d32; line-height: 1.5; margin-bottom: 12px;">${q.question}</h5>
+            
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;">
+              ${optionsHtml}
+            </div>
+
+            ${expSummary ? `
+              <div class="exp-details-box" style="background: #f0faf9; border-left: 3px solid #2cb5bc; padding: 10px 14px; border-radius: 6px; font-size: 0.88rem; color: #12575e; margin-bottom: 8px;">
+                <strong style="color: #0b2228; display: block; margin-bottom: 4px;">📜 Tâm Pháp Luận Giải:</strong>
+                <p style="margin: 0 0 6px 0; line-height: 1.55;">${expSummary}</p>
+                ${breakdownHtml ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(44, 181, 188, 0.4);">${breakdownHtml}</div>` : ''}
+              </div>
+            ` : ''}
+
+            ${q.hint ? `
+              <div style="background: #fffdf5; border-left: 3px solid #f39c12; padding: 8px 14px; border-radius: 6px; font-size: 0.84rem; color: #7d6608;">
+                <strong>💡 Gợi ý:</strong> ${q.hint}
+              </div>
+            ` : ''}
+          `;
+
+          previewBody.appendChild(card);
+        });
+      }
+
+      // Attach event listeners to all preview buttons
+      document.querySelectorAll('.btn-preview-answers').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const quizNum = parseInt(btn.dataset.quiz, 10);
+          openAnswersPreview(quizNum);
+        });
+      });
+
+      if (btnClosePreview && previewModal) {
+        btnClosePreview.addEventListener('click', () => {
+          previewModal.classList.remove('show');
+        });
+      }
+
+      // Close modal on outside click
+      if (previewModal) {
+        previewModal.addEventListener('click', (e) => {
+          if (e.target === previewModal) {
+            previewModal.classList.remove('show');
+          }
+        });
+      }
+
+      // Search input live filtering
+      if (previewSearch) {
+        previewSearch.addEventListener('input', (e) => {
+          const qData = window['QUIZ' + currentQuizNum + '_DATA'] || [];
+          renderPreviewList(qData, e.target.value);
+        });
+      }
+
+      // Expand/Collapse all explanations
+      if (btnExpandAll) {
+        btnExpandAll.addEventListener('click', () => {
+          allExpanded = !allExpanded;
+          btnExpandAll.textContent = allExpanded ? '📁 Thu Gọn Luận Giải' : '📖 Mở Rộng Luận Giải';
+          document.querySelectorAll('.exp-details-box').forEach(box => {
+            box.style.display = allExpanded ? 'block' : 'none';
+          });
+        });
+      }
+
+});
   </script>
   <script src="sword_cursor.js"></script>
 </body>
