@@ -21,6 +21,22 @@
   let examTimeRemaining = 60 * 60; // 60 mins default
   let timerInterval = null;
   let isSubmitted = false;
+  let lastRenderedIndex = -1;
+
+  // Tự động cuộn màn hình lên đầu phần câu hỏi khi đổi sang câu khác
+  function scrollToQuestionTop() {
+    const target = document.querySelector('.question-pane') || document.getElementById('q-index-display');
+    if (target) {
+      const rect = target.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const targetY = Math.max(0, rect.top + scrollTop - 12);
+      try {
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      } catch (e) {
+        window.scrollTo(0, targetY);
+      }
+    }
+  }
 
   // Cultivation Realms
   const REALMS = [
@@ -131,8 +147,15 @@
   // Render question UI
   function renderQuestion(index) {
     if (index < 0 || index >= currentList.length) return;
+    const isNewQuestion = (lastRenderedIndex !== -1 && lastRenderedIndex !== index);
     currentIndex = index;
+    lastRenderedIndex = index;
     const q = currentList[currentIndex];
+
+    // Tự động cuộn màn hình lên đầu câu hỏi khi chuyển câu
+    if (isNewQuestion) {
+      scrollToQuestionTop();
+    }
 
     // Update Header / Index
     const qIndexEl = document.getElementById('q-index-display');
@@ -467,12 +490,7 @@
 
       btn.addEventListener('click', () => {
         renderQuestion(idx);
-        if (window.innerWidth <= 768) {
-          const qPane = document.querySelector('.question-pane');
-          if (qPane) {
-            window.scrollTo({ top: qPane.offsetTop - 10, behavior: 'smooth' });
-          }
-        }
+        scrollToQuestionTop();
       });
       grid.appendChild(btn);
     });
@@ -550,6 +568,7 @@
   function nextQuestion() {
     if (currentIndex < currentList.length - 1) {
       renderQuestion(currentIndex + 1);
+      scrollToQuestionTop();
     } else {
       finishQuiz();
     }
@@ -558,6 +577,7 @@
   function prevQuestion() {
     if (currentIndex > 0) {
       renderQuestion(currentIndex - 1);
+      scrollToQuestionTop();
     }
   }
 
@@ -805,6 +825,12 @@
         btnToggleAnswers.innerHTML = '<span>📜</span> Xem Toàn Bộ Đáp Án & Luận Giải';
         btnToggleAnswers.href = `quiz.html?quiz=${quizId}&mode=answers`;
       }
+    }
+
+    // Switch to Mobile Version link
+    const btnSwitchMobile = document.getElementById('btn-switch-mobile-quiz');
+    if (btnSwitchMobile) {
+      btnSwitchMobile.href = `mobile.html?quiz=${quizId}&mode=${mode}`;
     }
 
     // Modal buttons

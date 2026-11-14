@@ -1693,6 +1693,10 @@ body {
     font-size: 1.2rem;
   }
 
+  #mobile-detect-banner {
+    display: flex !important;
+  }
+
   .quiz-grid {
     grid-template-columns: 1fr;
     gap: 16px;

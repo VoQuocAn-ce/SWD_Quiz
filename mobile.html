@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Vấn Đạo Mobile - SWD392 Trắc Nghiệm Tu Tiên</title>
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔️</text></svg>">
+  <meta name="theme-color" content="#12575e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body class="mobile-body">
+
+  <!-- TOP APP BAR -->
+  <header class="m-app-bar">
+    <div class="m-brand">
+      <span class="m-brand-icon">⚔️</span>
+      <div>
+        <div class="m-brand-text">VẤN ĐẠO MOBILE</div>
+        <div class="m-brand-sub" id="m-header-realm">Luyện Khí Kỳ</div>
+      </div>
+    </div>
+    <div class="m-app-actions">
+      <a href="index.html" class="m-btn-mini" title="Chuyển sang giao diện máy tính">
+        <span>💻</span> Bản PC
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="m-main-container">
+
+    <!-- ===================================================================
+         VIEW 1: SẢNH BÍ CẢNH (LOBBY VIEW)
+         =================================================================== -->
+    <section class="m-view-section active" id="view-lobby">
+      
+      <!-- Mini Stats Strip -->
+      <div class="m-stats-strip">
+        <div class="m-stat-chip">
+          <div class="m-stat-chip-icon">📜</div>
+          <div class="m-stat-chip-val" id="m-stat-total">1322</div>
+          <div class="m-stat-chip-lbl">Tổng Câu</div>
+        </div>
+        <div class="m-stat-chip">
+          <div class="m-stat-chip-icon">🎯</div>
+          <div class="m-stat-chip-val" id="m-stat-score">0%</div>
+          <div class="m-stat-chip-lbl">Điểm Cao</div>
+        </div>
+        <div class="m-stat-chip">
+          <div class="m-stat-chip-icon">👺</div>
+          <div class="m-stat-chip-val" id="m-stat-wrong" style="color: #c0392b;">0</div>
+          <div class="m-stat-chip-lbl">Tâm Ma</div>
+        </div>
+        <div class="m-stat-chip">
+          <div class="m-stat-chip-icon">🏆</div>
+          <div class="m-stat-chip-val" id="m-stat-times">0</div>
+          <div class="m-stat-chip-lbl">Đỗ Kiếp</div>
+        </div>
+      </div>
+
+      <!-- Instant Search Box -->
+      <div class="m-search-wrap">
+        <input type="search" class="m-search-input" id="m-search-input" placeholder="🔍 Tìm kiếm bí cảnh (Quiz 2, Spring, FE...)">
+        <button class="m-search-clear" id="m-search-clear">✕</button>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="m-filter-chips">
+        <button class="m-chip-btn active" data-filter="all">Tất Cả (22)</button>
+        <button class="m-chip-btn" data-filter="fe">🔥 Đề Thi Thật (FE)</button>
+        <button class="m-chip-btn" data-filter="sect">✦ Bí Cảnh Tông Môn</button>
+        <button class="m-chip-btn" data-filter="wrong">👺 Có Câu Sai</button>
+      </div>
+
+      <!-- Compact Quiz List Container -->
+      <div class="m-quiz-list" id="m-quiz-items-container">
+        <!-- Rendered dynamically by mobile_engine.js -->
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================================
+         VIEW 2: MÀN HÌNH LÀM BÀI (QUIZ PLAYER)
+         =================================================================== -->
+    <section class="m-view-section" id="view-quiz">
+      
+      <!-- Top Status Header -->
+      <div class="m-quiz-header">
+        <div class="m-quiz-header-top">
+          <div class="m-quiz-index" id="m-q-index">
+            <span>⚔️</span> Câu 1 / 60
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="m-quiz-timer-pill" id="m-quiz-timer">⏱️ 60:00</span>
+            <span class="m-quiz-mode-pill" id="m-quiz-mode-pill">🗡️ Luyện Tập</span>
+          </div>
+        </div>
+        <!-- Progress Bar -->
+        <div class="m-progress-wrap">
+          <div class="m-progress-fill" id="m-progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Tools Bar -->
+      <div class="m-question-tools">
+        <div class="m-topic-badge" id="m-q-topic">Software Architecture</div>
+        <div class="m-tool-actions">
+          <button class="m-tool-btn" id="m-btn-flag" onclick="window.toggleMobileFlag()">🚩 Lưu Ý</button>
+          <button class="m-tool-btn" id="m-btn-save-wrong" onclick="window.toggleMobileSaveWrong()">👺 Lưu Tâm Ma</button>
+          <button class="m-tool-btn" id="m-btn-orig" onclick="window.toggleMobileOrig()" style="display: none;">🖼️ Ảnh</button>
+        </div>
+      </div>
+
+      <!-- Question Text Card -->
+      <div class="m-question-card">
+        <div class="m-question-text" id="m-question-text">
+          Đang tải dữ liệu câu hỏi thí luyện...
+        </div>
+        <div class="m-orig-box" id="m-orig-box">
+          <img src="" id="m-orig-img" alt="Ảnh đề bài gốc">
+        </div>
+      </div>
+
+      <!-- Options List -->
+      <div class="m-options-list" id="m-options-container">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Hint Accordion -->
+      <div class="m-accordion-card">
+        <button class="m-accordion-btn" onclick="window.toggleMobileHint()">
+          <span>💡 Tiên Nhân Chỉ Điểm (Gợi Ý)</span>
+          <span>▼</span>
+        </button>
+        <div class="m-accordion-content" id="m-hint-content">
+          <p id="m-hint-text">Gợi ý tu luyện sẽ hiển thị tại đây.</p>
+        </div>
+      </div>
+
+      <!-- Explanation Box -->
+      <div class="m-explanation-box" id="m-explanation-box">
+        <div class="m-exp-header">
+          <strong style="color: var(--m-primary); font-size: 0.9rem;">📜 Tâm Pháp Luận Giải</strong>
+          <span class="m-exp-tag correct" id="m-exp-result-tag">✓ Chính Xác</span>
+        </div>
+        <div style="font-size: 0.88rem; line-height: 1.5; color: #12575e; margin-bottom: 8px;">
+          <strong>Tóm tắt:</strong> <span id="m-exp-summary"></span>
+        </div>
+        <div style="font-size: 0.82rem; color: #333; margin-bottom: 6px;">
+          <strong>Khái niệm cốt lõi:</strong> <span id="m-exp-core"></span>
+        </div>
+        <div style="font-size: 0.82rem; color: #1e8449; margin-bottom: 6px;">
+          <strong>Vì sao đúng:</strong> <span id="m-exp-why-correct"></span>
+        </div>
+        <div style="font-size: 0.82rem; color: #c0392b; margin-top: 8px; border-top: 1px dashed #fadbd8; padding-top: 6px;">
+          <strong>Phân tích phương án sai:</strong>
+          <div id="m-exp-wrong-breakdown" style="margin-top: 4px;"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Nav inside Quiz -->
+      <div class="m-quiz-bottom-bar">
+        <button class="m-btn-nav" id="m-btn-prev" onclick="window.mobilePrevQuestion()">
+          ❮ Trước
+        </button>
+        <button class="m-btn-nav m-btn-palette" id="m-btn-palette-open" onclick="window.openPaletteSheet()">
+          🧭 1/60
+        </button>
+        <button class="m-btn-nav primary" id="m-btn-next" onclick="window.mobileNextQuestion()">
+          Tiếp ❯
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================================
+         VIEW 3: TÂM MA LỤC (WRONG QUESTIONS HUB)
+         =================================================================== -->
+    <section class="m-view-section" id="view-wrong">
+      
+      <div class="m-wrong-hero">
+        <div class="m-wrong-hero-top">
+          <div style="font-size: 1.05rem; font-weight: 900; color: #c0392b; display: flex; align-items: center; gap: 6px;">
+            <span>👺</span> TÂM MA LỤC
+          </div>
+          <span class="m-wrong-count-tag" id="m-wrong-tab-count">0 câu</span>
+        </div>
+        <p style="font-size: 0.82rem; color: #641e16; line-height: 1.45; margin-bottom: 12px;">
+          Nơi lưu giữ các câu hỏi Đạo hữu từng trả lời sai. Hãy luyện tập lại để hóa giải tâm ma trước ngày vượt ải FE!
+        </p>
+        <div class="m-wrong-actions-strip">
+          <button class="m-btn-nav primary" style="background: linear-gradient(135deg, #c0392b, #962d22); border-color: #f5b7b1; font-size: 0.82rem;" onclick="window.startWrongReviewMobile()">
+            🗡️ Luyện Lại Câu Sai
+          </button>
+          <button class="m-btn-nav" style="border-color: #fadbd8; color: #c0392b; font-size: 0.82rem; flex: 0.8;" onclick="window.clearAllWrongMobile()">
+            🗑️ Làm Mới
+          </button>
+        </div>
+      </div>
+
+      <!-- Wrong Questions List -->
+      <div id="m-wrong-cards-list">
+        <!-- Populated dynamically -->
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================================
+         VIEW 4: TU VI & CÀI ĐẶT (PROFILE VIEW)
+         =================================================================== -->
+    <section class="m-view-section" id="view-profile">
+      
+      <!-- Realm Card -->
+      <div class="m-profile-card">
+        <div class="m-realm-icon">⚡</div>
+        <div class="m-realm-name" id="m-profile-realm-name">Luyện Khí Kỳ</div>
+        <p style="font-size: 0.85rem; color: #5a7b7e; margin-top: 4px;" id="m-profile-realm-desc">
+          Mới bước chân vào tiên đạo SWD392
+        </p>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 14px; border-top: 1px dashed rgba(212, 175, 55, 0.4); padding-top: 12px;">
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: var(--m-primary);" id="m-profile-highest-score">0%</div>
+            <div style="font-size: 0.72rem; color: #7f8c8d; font-weight: 700;">TỶ LỆ CAO NHẤT</div>
+          </div>
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: var(--m-primary);" id="m-profile-times">0</div>
+            <div style="font-size: 0.72rem; color: #7f8c8d; font-weight: 700;">SỐ LẦN ĐỖ KIẾP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Card -->
+      <div class="m-settings-card">
+        <div style="font-weight: 800; font-size: 0.95rem; color: var(--m-primary-dark); margin-bottom: 8px;">
+          ⚙️ Tiên Âm & Cài Đặt
+        </div>
+
+        <div class="m-setting-row">
+          <div class="m-setting-label">🎵 Nhạc Nền Lan Đình Tự</div>
+          <label class="m-switch">
+            <input type="checkbox" id="m-toggle-bgm" onchange="window.toggleMobileBgm(this)">
+            <span class="m-slider"></span>
+          </label>
+        </div>
+
+        <div class="m-setting-row">
+          <div class="m-setting-label">⚔️ Âm Hiệu Kiếm Khí & Keng</div>
+          <label class="m-switch">
+            <input type="checkbox" id="m-toggle-sfx" checked onchange="window.toggleMobileSfx(this)">
+            <span class="m-slider"></span>
+          </label>
+        </div>
+
+        <div class="m-setting-row">
+          <div class="m-setting-label">💻 Chuyển Giao Diện Máy Tính</div>
+          <a href="index.html" class="m-btn-mini" style="text-decoration: none;">
+            Mở Bản PC ➔
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center; padding: 16px 10px; font-size: 0.76rem; color: #64878b;">
+        VẤN ĐẠO KIẾM CÁC • SWD392 QUIZ TU TIÊN<br>
+        22 Bí Cảnh • 1322 Câu Hỏi Chuẩn COMET & UML Diagrams
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ===================================================================
+       BOTTOM APP NAVIGATION BAR (THANH ĐIỀU HƯỚNG ĐÁY)
+       =================================================================== -->
+  <nav class="m-bottom-nav">
+    <button class="m-nav-item active" data-tab="lobby" onclick="window.switchTab('lobby')">
+      <span class="m-nav-icon">🏰</span>
+      <span class="m-nav-label">Sảnh Thi</span>
+    </button>
+    <button class="m-nav-item" data-tab="quiz" onclick="window.switchTab('quiz')">
+      <span class="m-nav-icon">⚔️</span>
+      <span class="m-nav-label">Làm Bài</span>
+    </button>
+    <button class="m-nav-item" data-tab="wrong" onclick="window.switchTab('wrong')">
+      <span class="m-nav-icon">👺</span>
+      <span class="m-nav-label">Tâm Ma</span>
+      <span class="m-nav-badge m-nav-badge-wrong" style="display: none;">0</span>
+    </button>
+    <button class="m-nav-item" data-tab="profile" onclick="window.switchTab('profile')">
+      <span class="m-nav-icon">📊</span>
+      <span class="m-nav-label">Tu Vi</span>
+    </button>
+  </nav>
+
+
+  <!-- ===================================================================
+       DRAWER 1: ACTION SHEET (CHỌN CHẾ ĐỘ THI)
+       =================================================================== -->
+  <div class="m-sheet-overlay" id="sheet-quiz-action" onclick="if(event.target===this) window.closeSheet('sheet-quiz-action')">
+    <div class="m-bottom-sheet">
+      <div class="m-sheet-handle"></div>
+      <div class="m-sheet-header">
+        <div class="m-sheet-title" id="sheet-quiz-title">Quiz Title</div>
+        <button class="m-sheet-close" onclick="window.closeSheet('sheet-quiz-action')">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: #557c80; line-height: 1.45;" id="sheet-quiz-desc">
+        Mô tả bí cảnh
+      </p>
+
+      <div class="m-action-btn-list">
+        <button class="m-action-btn practice" onclick="window.startMobileQuiz('practice')">
+          <span>🗡️ Tự Do Ngộ Đạo</span>
+          <small style="color: #16a085;">Gợi ý & giải thích ➔</small>
+        </button>
+        <button class="m-action-btn exam" onclick="window.startMobileQuiz('exam')">
+          <span>⏳ Thi Thử Tông Môn</span>
+          <small style="color: #d4af37;">Bấm giờ 60p ➔</small>
+        </button>
+        <button class="m-action-btn answers" onclick="window.startMobileQuiz('answers')">
+          <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+          <small style="color: #2cb5bc;">Tra cứu bí kíp ➔</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================================================================
+       DRAWER 2: BÁT QUÁI TRẬN ĐỒ (QUESTION PALETTE SHEET)
+       =================================================================== -->
+  <div class="m-sheet-overlay" id="sheet-palette" onclick="if(event.target===this) window.closeSheet('sheet-palette')">
+    <div class="m-bottom-sheet">
+      <div class="m-sheet-handle"></div>
+      <div class="m-sheet-header">
+        <div class="m-sheet-title">🧭 Bát Quái Trận Đồ (Chọn Câu)</div>
+        <button class="m-sheet-close" onclick="window.closeSheet('sheet-palette')">✕</button>
+      </div>
+      
+      <div style="display: flex; gap: 8px; justify-content: center; font-size: 0.74rem; font-weight: 700; margin-bottom: 12px; color: #557c80;">
+        <span>🟢 Đúng</span> • <span>🔴 Sai</span> • <span>🔵 Đã chọn</span> • <span>🟠 Lưu ý</span>
+      </div>
+
+      <div class="m-palette-grid" id="m-palette-grid">
+        <!-- Numbered buttons populated dynamically -->
+      </div>
+
+      <button class="m-btn-nav submit-btn" style="width: 100%; height: 48px; border-radius: 24px;" onclick="window.closeSheet('sheet-palette'); if(confirm('Đạo hữu có chắc chắn nộp bài thi?')) finishMobileQuiz();">
+        ⚔️ Nộp Bài Thí Luyện
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ===================================================================
+       DRAWER 3: BẢNG VÀNG THÀNH TÍCH (RESULT SHEET)
+       =================================================================== -->
+  <div class="m-sheet-overlay" id="sheet-result" onclick="if(event.target===this) window.closeSheet('sheet-result')">
+    <div class="m-bottom-sheet" style="text-align: center;">
+      <div class="m-sheet-handle"></div>
+      <div style="font-size: 2.2rem; margin-bottom: 4px;">🎉</div>
+      <div class="m-sheet-title" style="font-size: 1.3rem;">BẢNG VÀNG ĐỖ KIẾP</div>
+      
+      <div style="margin: 16px auto; width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #e8f8f5, #d1f2eb); border: 3px solid #16a085; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 16px rgba(22, 160, 133, 0.3);">
+        <div style="font-size: 1.8rem; font-weight: 900; color: #0e6251;" id="m-result-score-val">100%</div>
+        <div style="font-size: 0.72rem; font-weight: 800; color: #16a085;">TỶ LỆ ĐÚNG</div>
+      </div>
+
+      <div style="font-size: 1.05rem; font-weight: 800; color: var(--m-primary-dark); margin-bottom: 4px;" id="m-result-score-text">
+        Đúng 60 / 60 câu
+      </div>
+      <div style="font-size: 0.95rem; font-weight: 900; color: #d4af37;" id="m-result-realm-title">
+        Độ Kiếp Phi Thăng
+      </div>
+      <p style="font-size: 0.82rem; color: #557c80; margin: 6px auto 16px; max-width: 320px;" id="m-result-realm-desc">
+        Chúc mừng Đạo hữu đã thông hiểu đạo pháp!
+      </p>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="m-btn-nav primary" onclick="window.closeSheet('sheet-result'); launchQuiz(activeQuizId, activeMode);">
+          🔄 Thi Lại
+        </button>
+        <button class="m-btn-nav" onclick="window.closeSheet('sheet-result'); switchTab('lobby');">
+          🏰 Về Sảnh
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCRIPTS & DATA LOADING -->
+  <script src="sword_audio.js"></script>
+  <script src="wrong_manager.js"></script>
+  <script src="quiz_catalog.js"></script>
+  
+  <!-- All 22 Quiz Data -->
+  <script src="quiz1_data.js"></script>
+  <script src="quiz2_data.js"></script>
+  <script src="quiz3_data.js"></script>
+  <script src="quiz4_data.js"></script>
+  <script src="quiz5_data.js"></script>
+  <script src="quiz6_data.js"></script>
+  <script src="quiz7_data.js"></script>
+  <script src="quiz8_data.js"></script>
+  <script src="quiz9_data.js"></script>
+  <script src="quiz10_data.js"></script>
+  <script src="quiz11_data.js"></script>
+  <script src="quiz12_data.js"></script>
+  <script src="quiz13_data.js"></script>
+  <script src="quiz14_data.js"></script>
+  <script src="quiz15_data.js"></script>
+  <script src="quiz16_data.js"></script>
+  <script src="quiz17_data.js"></script>
+  <script src="quiz18_data.js"></script>
+  <script src="quiz19_data.js"></script>
+  <script src="quiz20_data.js"></script>
+  <script src="quiz21_data.js"></script>
+  <script src="quiz22_data.js"></script>
+
+  <!-- Mobile Engine -->
+  <script src="mobile_engine.js"></script>
+
+</body>
+</html>
