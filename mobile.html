@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="m-app-actions">
-      <a href="index.html" class="m-btn-mini" title="Chuyển sang giao diện máy tính">
+      <a href="index.html?view=pc" id="m-btn-go-pc" class="m-btn-mini" title="Chuyển sang giao diện máy tính">
         <span>💻</span> Bản PC
       </a>
     </div>
@@ -108,6 +108,7 @@
       <div class="m-question-tools">
         <div class="m-topic-badge" id="m-q-topic">Software Architecture</div>
         <div class="m-tool-actions">
+          <button class="m-tool-btn" id="m-btn-toggle-compact-exp" onclick="window.toggleMobileCompactExp()">⚡ Luận Giải: Gọn</button>
           <button class="m-tool-btn" id="m-btn-flag" onclick="window.toggleMobileFlag()">🚩 Lưu Ý</button>
           <button class="m-tool-btn" id="m-btn-save-wrong" onclick="window.toggleMobileSaveWrong()">👺 Lưu Tâm Ma</button>
           <button class="m-tool-btn" id="m-btn-orig" onclick="window.toggleMobileOrig()" style="display: none;">🖼️ Ảnh</button>
@@ -145,6 +146,7 @@
         <div class="m-exp-header">
           <strong style="color: var(--m-primary); font-size: 0.9rem;">📜 Tâm Pháp Luận Giải</strong>
           <span class="m-exp-tag correct" id="m-exp-result-tag">✓ Chính Xác</span>
+          <button class="m-btn-mini" style="font-size: 0.72rem; padding: 2px 8px; margin-left: auto;" onclick="window.toggleMobileCompactExp()">⚡ Ẩn Bảng Lớn</button>
         </div>
         <div style="font-size: 0.88rem; line-height: 1.5; color: #12575e; margin-bottom: 8px;">
           <strong>Tóm tắt:</strong> <span id="m-exp-summary"></span>
@@ -258,7 +260,7 @@
 
         <div class="m-setting-row">
           <div class="m-setting-label">💻 Chuyển Giao Diện Máy Tính</div>
-          <a href="index.html" class="m-btn-mini" style="text-decoration: none;">
+          <a href="index.html?view=pc" class="m-btn-mini" style="text-decoration: none;">
             Mở Bản PC ➔
           </a>
         </div>

@@ -10,7 +10,7 @@ window.QUIZ_CATALOG = [
   {
     "id": 2,
     "title": "Quiz 2: Summer 2025 Final Exam (SU25 - FE4148)",
-    "badge": "🔥 ĐỀ THI THẬT SU 2025 (ĐÃ MỞ KHÓA)",
+    "badge": "🔥 ĐỀ THI THẬT SU 2025 (ĐANG MỞ)",
     "desc": "Đề thi chính thức môn SWD392 học kỳ Summer 2025 (FE4148) Đại học FPT gồm 60 câu hỏi chuẩn xác về phương pháp COMET, mô hình thác nước và các nguyên tắc thiết kế hướng đối tượng.",
     "questions": 60,
     "examType": "Đề Thi FE Đại Học FPT"
@@ -18,7 +18,7 @@ window.QUIZ_CATALOG = [
   {
     "id": 3,
     "title": "Quiz 3: Software Design Concepts & Architecture Principles",
-    "badge": "✦ BÍ CẢNH TẦNG 3: NGUYÊN LÝ THIẾT KẾ (ĐÃ MỞ KHÓA)",
+    "badge": "✦ BÍ CẢNH TẦNG 3 (ĐANG MỞ)",
     "desc": "Trọn bộ 60 câu hỏi chuyên sâu về các nguyên lý cốt lõi: Design Concepts, Abstracting Complexity, Architectural Views & mô hình hóa UML chuẩn COMET.",
     "questions": 60,
     "examType": "Đề: English"
@@ -26,7 +26,7 @@ window.QUIZ_CATALOG = [
   {
     "id": 4,
     "title": "Quiz 4: Requirements Capture, Use Cases & Structural Design",
-    "badge": "✦ BÍ CẢNH TẦNG 4: USE CASE & STRUCTURE (ĐÃ MỞ KHÓA)",
+    "badge": "✦ BÍ CẢNH TẦNG 4 (ĐANG MỞ)",
     "desc": "Trọn bộ 60 câu hỏi về quy trình thu thập yêu cầu (Requirements capture), mô hình hóa Use Case, Design Notation và phân tích cấu trúc phần mềm.",
     "questions": 60,
     "examType": "Đề: English"

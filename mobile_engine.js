@@ -18,6 +18,27 @@
   let examTimeRemaining = 60 * 60;
   let timerInterval = null;
   let lastRenderedIndex = -1;
+  let compactExplanationMode = localStorage.getItem('swd_compact_explanation') === 'true';
+
+  window.toggleMobileCompactExp = function () {
+    compactExplanationMode = !compactExplanationMode;
+    localStorage.setItem('swd_compact_explanation', compactExplanationMode ? 'true' : 'false');
+    updateMobileCompactExpBtn();
+    renderQuestion(currentIndex);
+  };
+
+  function updateMobileCompactExpBtn() {
+    const btn = document.getElementById('m-btn-toggle-compact-exp');
+    if (btn) {
+      if (compactExplanationMode) {
+        btn.classList.add('active');
+        btn.textContent = '⚡ Luận Giải: Gọn';
+      } else {
+        btn.classList.remove('active');
+        btn.textContent = '📜 Luận Giải: Đủ';
+      }
+    }
+  }
 
   function scrollToQuestionTop() {
     const target = document.querySelector('.m-quiz-header') || document.querySelector('.m-question-card') || document.getElementById('view-quiz');
@@ -103,6 +124,16 @@
         btn.classList.remove('active');
       }
     });
+
+    // Update PC Switch Button Link
+    const btnGoPc = document.getElementById('m-btn-go-pc');
+    if (btnGoPc) {
+      if (tabName === 'quiz' && activeQuizId) {
+        btnGoPc.href = `quiz.html?quiz=${activeQuizId}&mode=${activeMode}&view=pc`;
+      } else {
+        btnGoPc.href = 'index.html?view=pc';
+      }
+    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -465,6 +496,7 @@
       item.className = 'm-option-item';
 
       let badgeHtml = '';
+      let inlineExpHtml = '';
 
       if (reveal) {
         item.classList.add('disabled');
@@ -474,6 +506,21 @@
             badgeHtml = `<span class="m-opt-badge correct">✓ Bạn chọn đúng</span>`;
           } else {
             badgeHtml = `<span class="m-opt-badge correct">✓ Đáp án đúng</span>`;
+          }
+
+          // Hiển thị giải thích gọn ngay trong khung đáp án đúng khi bật option
+          if (compactExplanationMode) {
+            const correctBreakdown = q.explanation && q.explanation.breakdown ? q.explanation.breakdown[q.answer] : '';
+            const summaryText = q.explanation ? q.explanation.summary : '';
+            const reasonText = correctBreakdown || summaryText || "Phương án này hoàn toàn chính xác.";
+            inlineExpHtml = `
+              <div class="m-inline-correct-exp">
+                <div class="m-inline-exp-title">
+                  <span>💡</span> <strong>Luận giải câu đúng:</strong>
+                </div>
+                <div class="m-inline-exp-text">${reasonText}</div>
+              </div>
+            `;
           }
         } else if (opt.key === selected) {
           item.classList.add('wrong');
@@ -486,8 +533,13 @@
 
       item.innerHTML = `
         <div class="m-option-key">${opt.key}</div>
-        <div class="m-option-text">${opt.text}</div>
-        ${badgeHtml}
+        <div class="m-option-body-wrap">
+          <div class="m-option-main-row">
+            <div class="m-option-text">${opt.text}</div>
+            ${badgeHtml}
+          </div>
+          ${inlineExpHtml}
+        </div>
       `;
 
       if (activeMode !== 'answers' && (!reveal || (activeMode === 'exam' && !isSubmitted))) {
@@ -543,7 +595,7 @@
     const selected = userAnswers[q.id];
     const shouldShow = ((activeMode === 'practice' || activeMode === 'review') && selected !== undefined) || activeMode === 'answers' || isSubmitted;
 
-    if (!shouldShow) {
+    if (!shouldShow || compactExplanationMode) {
       expBox.classList.remove('show');
       return;
     }
@@ -899,6 +951,8 @@
         renderQuizList();
       });
     });
+
+    updateMobileCompactExpBtn();
 
     // Check URL Parameters
     const params = new URLSearchParams(window.location.search);

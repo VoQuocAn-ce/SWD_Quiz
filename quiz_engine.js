@@ -22,6 +22,40 @@
   let timerInterval = null;
   let isSubmitted = false;
   let lastRenderedIndex = -1;
+  let compactExplanationMode = localStorage.getItem('swd_compact_explanation') === 'true';
+
+  // Chuyển đổi chế độ Luận giải (Đầy đủ bảng lớn vs Chỉ giải thích gọn tại khung câu đúng)
+  function toggleCompactExplanation() {
+    compactExplanationMode = !compactExplanationMode;
+    localStorage.setItem('swd_compact_explanation', compactExplanationMode ? 'true' : 'false');
+    updateCompactExplanationButton();
+    renderQuestion(currentIndex);
+  }
+
+  function updateCompactExplanationButton() {
+    const btn = document.getElementById('btn-toggle-compact-exp');
+    const textEl = document.getElementById('text-compact-exp');
+    const iconEl = document.getElementById('icon-compact-exp');
+    if (btn) {
+      if (compactExplanationMode) {
+        btn.classList.add('active');
+        btn.style.background = '#e8f8f5';
+        btn.style.borderColor = '#16a085';
+        btn.style.color = '#0e6251';
+        btn.title = "Đang bật giải thích gọn ở câu đúng. Bấm để chuyển sang Bảng luận giải đầy đủ.";
+        if (textEl) textEl.textContent = 'Luận Giải: Gọn Tại Câu Đúng';
+        if (iconEl) iconEl.textContent = '⚡';
+      } else {
+        btn.classList.remove('active');
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.title = "Đang hiện Bảng luận giải đầy đủ. Bấm để chuyển sang chế độ chỉ giải thích ở câu đúng.";
+        if (textEl) textEl.textContent = 'Luận Giải: Bảng Đầy Đủ';
+        if (iconEl) iconEl.textContent = '📜';
+      }
+    }
+  }
 
   // Tự động cuộn màn hình lên đầu phần câu hỏi khi đổi sang câu khác
   function scrollToQuestionTop() {
@@ -234,6 +268,7 @@
         item.dataset.key = opt.key;
 
         let badgeHtml = '';
+        let inlineExpHtml = '';
 
         // Visual states
         if (revealAnswer) {
@@ -244,6 +279,21 @@
               badgeHtml = `<span class="option-status-badge correct-chosen">✓ Bạn chọn chính xác</span>`;
             } else {
               badgeHtml = `<span class="option-status-badge correct-answer">✓ Đáp án đúng</span>`;
+            }
+
+            // Nếu người dùng chọn TẮT tâm pháp luận giải, hiển thị giải thích gọn ngay trong khung đáp án đúng
+            if (compactExplanationMode) {
+              const correctBreakdown = q.explanation && q.explanation.breakdown ? q.explanation.breakdown[q.answer] : '';
+              const summaryText = q.explanation ? q.explanation.summary : '';
+              const reasonText = correctBreakdown || summaryText || "Phương án này hoàn toàn chính xác theo nguyên lý thiết kế.";
+              inlineExpHtml = `
+                <div class="inline-correct-explanation">
+                  <div class="inline-exp-title">
+                    <span>💡</span> <strong>Luận giải phương án đúng:</strong>
+                  </div>
+                  <div class="inline-exp-text">${reasonText}</div>
+                </div>
+              `;
             }
           } else if (opt.key === selected) {
             item.classList.add('wrong');
@@ -256,9 +306,14 @@
 
         item.innerHTML = `
           <div class="option-key">${opt.key}</div>
-          <div class="option-text">${opt.text}</div>
-          ${badgeHtml}
-          <div class="option-sword-icon">🗡️</div>
+          <div class="option-body-wrap">
+            <div class="option-main-row">
+              <div class="option-text">${opt.text}</div>
+              ${badgeHtml}
+              <div class="option-sword-icon">🗡️</div>
+            </div>
+            ${inlineExpHtml}
+          </div>
         `;
 
         if (mode !== 'answers' && (!revealAnswer || (mode === 'exam' && !isSubmitted))) {
@@ -298,7 +353,8 @@
     const selected = userAnswers[q.id];
     const shouldShow = ((mode === 'practice' || mode === 'review') && selected !== undefined) || isSubmitted;
 
-    if (!shouldShow) {
+    // Nếu người dùng chọn TẮT tâm pháp luận giải (hoặc chưa đến lúc hiện), ẩn bảng lớn
+    if (!shouldShow || compactExplanationMode) {
       expContainer.classList.remove('show');
       return;
     }
@@ -788,6 +844,22 @@
 
     const btnViewOrig = document.getElementById('btn-view-orig');
     if (btnViewOrig) btnViewOrig.addEventListener('click', toggleOriginalImage);
+
+    // Toggle compact explanation button
+    const btnToggleExp = document.getElementById('btn-toggle-compact-exp');
+    if (btnToggleExp) btnToggleExp.addEventListener('click', toggleCompactExplanation);
+
+    const btnQuickHide = document.getElementById('btn-quick-hide-exp');
+    if (btnQuickHide) {
+      btnQuickHide.addEventListener('click', () => {
+        compactExplanationMode = true;
+        localStorage.setItem('swd_compact_explanation', 'true');
+        updateCompactExplanationButton();
+        renderQuestion(currentIndex);
+      });
+    }
+
+    updateCompactExplanationButton();
 
     const btnPrev = document.getElementById('btn-prev');
     if (btnPrev) btnPrev.addEventListener('click', prevQuestion);

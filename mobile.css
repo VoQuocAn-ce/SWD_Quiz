@@ -369,6 +369,10 @@ body.mobile-body {
   padding: 2px 8px;
   border-radius: 8px;
   margin-bottom: 4px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .m-quiz-item-badge.orange {
@@ -586,13 +590,62 @@ body.mobile-body {
   border-radius: 14px;
   padding: 12px 14px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   min-height: 52px;
   cursor: pointer;
   transition: all 0.18s ease;
   position: relative;
   box-shadow: 0 2px 8px rgba(18, 87, 94, 0.06);
+}
+
+.m-option-body-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.m-option-main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.m-option-main-row .m-option-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Khung Luận Giải Gọn Ngay Tại Khung Câu Đúng Mobile */
+.m-inline-correct-exp {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1.5px solid #27ae60;
+  border-left: 4.5px solid #27ae60;
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.12);
+  animation: mFadeIn 0.2s ease-out;
+}
+
+.m-inline-exp-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1e8449;
+  margin-bottom: 4px;
+}
+
+.m-inline-exp-text {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #0f4c28;
+  font-weight: 600;
 }
 
 .m-option-item:active:not(.disabled) {
