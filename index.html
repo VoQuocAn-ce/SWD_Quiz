@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vấn Đạo Kiếm Các - SWD392 Quiz Tu Tiên</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗡️</text></svg>">
+</head>
+<body>
+
+  <!-- Spiritual Sky & Flying Swords -->
+  <div class="sky-container">
+    <div class="cloud-mist"></div>
+    <div class="flying-sword sword-1"></div>
+    <div class="flying-sword sword-2"></div>
+    <div class="flying-sword sword-3"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Header Portal Banner -->
+    <header class="portal-header">
+      <div class="sect-brand">
+        <div class="sect-emblem">⚔️</div>
+        <div class="sect-title">
+          <h1>VẤN ĐẠO KIẾM CÁC</h1>
+          <p>Tông Môn Khảo Thí Kiến Trúc Phần Mềm SWD392</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="realm-badge" id="global-realm-badge">⚡ Cảnh Giới: <span id="user-realm-title">Luyện Khí Kỳ</span></span>
+        <div class="audio-controls-group">
+          <button class="btn-audio-mini" id="btn-bgm-toggle" title="Bật/Tắt Nhạc Nền: Lan Đình Tự 兰亭序 (Châu Kiệt Luân Instrumental)">
+            <span id="bgm-icon">🎵</span> <span id="bgm-text">Lan Đình Tự: Bật</span>
+          </button>
+          <div class="volume-slider-wrap" title="Âm lượng nhạc nền">
+            <span>🔈</span>
+            <input type="range" class="volume-slider" id="bgm-vol-slider" min="0" max="1" step="0.05" value="0.35">
+          </div>
+          <button class="btn-audio-mini active" id="btn-sfx-toggle" title="Bật/Tắt Âm hiệu Kiếm Khí & Tiên Âm">
+            <span>⚔️</span> <span id="sfx-text">Hiệu Ứng</span>
+          </button>
+          <button class="btn-audio-mini active" id="btn-sword-cursor-toggle" title="Bật/Tắt Hiệu Ứng Vạn Kiếm Quy Tông Theo Chuột">
+            <span id="sword-cursor-icon">🗡️</span> <span id="sword-cursor-text">Kiếm Trận</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Cultivation Section -->
+    <section class="portal-hero">
+      <h2>THÍ LUYỆN BÍ CẢNH TRẢI NGHIỆM</h2>
+      <p>
+        Chào mừng Đạo hữu bước chân vào Vấn Đạo Kiếm Các! Toàn bộ 60 câu hỏi tâm pháp kiến trúc (UML & COMET) 
+        được biên soạn chuẩn xác bằng tiếng Anh, kèm theo <strong>Tiên Nhân Chỉ Điểm (Gợi ý)</strong> 
+        và <strong>Tâm Pháp Luận Giải (Giải thích đúng/sai)</strong> chi tiết bằng tiếng Việt giúp Đạo hữu tinh thông đạo hạnh.
+      </p>
+
+      <!-- Stats Board -->
+      <div class="stats-board">
+        <div class="stat-card">
+          <div class="stat-icon">📜</div>
+          <div class="stat-value" id="stat-total-questions">1322</div>
+          <div class="stat-label">Tổng Câu Hỏi (22 Bí Cảnh - Trọn Bộ Mở Khóa)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value" id="stat-highest-score">0%</div>
+          <div class="stat-label">Tỷ Lệ Cao Nhất</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👹</div>
+          <div class="stat-value" id="stat-wrong-count" style="color: #c0392b;">0</div>
+          <div class="stat-label">Tâm Ma Lục (Câu Sai)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-value" id="stat-completed-times">0</div>
+          <div class="stat-label">Số Lần Đỗ Kiếp</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEDICATED SECTION: TÂM MA LỤC - KHO LƯU TRỮ VÀ ÔN TẬP CÂU SAI -->
+    <section class="wrong-questions-section" id="wrong-questions-hub">
+      <div class="wrong-section-header">
+        <div class="wrong-section-title">
+          <span>👹</span> TÂM MA LỤC - KHO LƯU TRỮ CÂU SAI ĐỂ ÔN TẬP
+          <span class="wrong-count-badge" id="wrong-count-header">0 câu</span>
+        </div>
+        <div class="wrong-actions-bar">
+          <a href="quiz.html?quiz=1&mode=review" class="btn-cultivation primary" id="btn-start-review" style="background: linear-gradient(135deg, #c0392b, #962d22); border-color: #f5b7b1;">
+            <span>🗡️</span> Luyện Lại Các Câu Sai
+          </a>
+          <button class="btn-cultivation" id="btn-open-wrong-modal">
+            <span>👁️</span> Xem Danh Sách & Đáp Án Chi Tiết
+          </button>
+          <button class="btn-cultivation danger" id="btn-clear-wrong-list" title="Xóa toàn bộ câu hỏi trong danh sách câu sai">
+            <span>🗑️</span> Làm Mới Kho Câu Sai
+          </button>
+        </div>
+      </div>
+      <p style="font-size: 0.93rem; color: #5a201a; line-height: 1.55;">
+        Mỗi khi Đạo hữu chọn nhầm đáp án (hoặc nhấn nút <em>"💾 Lưu Vào Tâm Ma"</em>), câu hỏi sẽ tự động được thu nạp vào đây. 
+        Đạo hữu có thể làm riêng đề trắc nghiệm chỉ gồm các câu này, hoặc mở bảng tra cứu đọc nhanh lời giải để khắc sâu kiến thức trước kỳ thi!
+      </p>
+    </section>
+
+    <!-- Quiz Selection Grid -->
+    <div class="section-title">
+      <h3><span>🗡️</span> Danh Sách Bí Cảnh Thí Luyện</h3>
+    </div>
+
+    <div class="quiz-grid">
+
+      <!-- Quiz 1 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH CHÍNH (ĐANG MỞ)</span>
+          <h4>Quiz 1: Software Architecture & Design</h4>
+          <p class="quiz-desc">
+            Toàn bộ 60 câu hỏi từ thư mục Quiz1 bao gồm các chủ đề trọng điểm: COMET Method, UML Class/Statechart/Interaction Diagrams, 
+            GoF Design Patterns, Subsystem Partitioning, Component-Based Architecture & Software Product Lines.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=1&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=1&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=1&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="1" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+          <a href="quiz.html?quiz=1&mode=review" class="quiz-mode-btn" id="btn-review-wrong-hub" style="background: #fff4f2; border-color: #e74c3c; color: #c0392b;">
+            <span>👹 Tâm Ma Lục: Ôn Tập Câu Sai</span>
+            <small id="hub-wrong-badge">0 câu ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 2 Card -->
+      <div class="quiz-card" style="border-color: #e67e22; box-shadow: 0 4px 16px rgba(230, 126, 34, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #d35400, #e67e22); color: #fff;">🔥 ĐỀ THI THẬT SU 2025 (ĐÃ MỞ KHÓA)</span>
+          <h4>Quiz 2: Summer 2025 Final Exam (SU25 - FE4148)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Summer 2025 (FE4148) Đại học FPT gồm 60 câu hỏi chuẩn xác về phương pháp COMET, mô hình thác nước và các nguyên tắc thiết kế hướng đối tượng.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=2&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=2&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #e67e22;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=2&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="2" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 3 Card -->
+      <div class="quiz-card" style="border-color: #27ae60; box-shadow: 0 4px 16px rgba(39, 174, 96, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #1e8449, #27ae60); color: #fff;">✦ BÍ CẢNH TẦNG 3: NGUYÊN LÝ THIẾT KẾ (ĐÃ MỞ KHÓA)</span>
+          <h4>Quiz 3: Software Design Concepts & Architecture Principles</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi chuyên sâu về các nguyên lý cốt lõi: Design Concepts, Abstracting Complexity, Architectural Views & mô hình hóa UML chuẩn COMET.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=3&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=3&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #27ae60;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=3&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="3" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 4 Card -->
+      <div class="quiz-card" style="border-color: #8e44ad; box-shadow: 0 4px 16px rgba(142, 68, 173, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #6c3483, #8e44ad); color: #fff;">✦ BÍ CẢNH TẦNG 4: USE CASE & STRUCTURE (ĐÃ MỞ KHÓA)</span>
+          <h4>Quiz 4: Requirements Capture, Use Cases & Structural Design</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi về quy trình thu thập yêu cầu (Requirements capture), mô hình hóa Use Case, Design Notation và phân tích cấu trúc phần mềm.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=4&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=4&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #8e44ad;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=4&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="4" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 5 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH TẦNG 5 (ĐANG MỞ)</span>
+          <h4>Quiz 5: Architecture Modeling & Design Concepts</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi về các khái niệm cốt lõi: Composition/Aggregation, Information Hiding, Quan hệ Unary/Binary, Mẫu thiết kế & Phân tách hệ thống con.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=5&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=5&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=5&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="5" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 6 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH TẦNG 6 (ĐANG MỞ)</span>
+          <h4>Quiz 6: Structural & Behavioral Modeling</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi: PIM & PSM, Vòng đời phần mềm Waterfall & Incremental, Use Case Diagrams, Deployment Diagrams và nguyên lý Giấu thông tin.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=6&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=6&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=6&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="6" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 7 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH TẦNG 7 (ĐANG MỞ)</span>
+          <h4>Quiz 7: Software Design Patterns & SPL</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi: Phương pháp thiết kế COMET, Mẫu thiết kế GoF, Kiến trúc phân tầng Layered & Broker, Dòng sản phẩm phần mềm (Software Product Lines).
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=7&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=7&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=7&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="7" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 8 Card -->
+      <div class="quiz-card" style="border-color: #e67e22; box-shadow: 0 4px 16px rgba(230, 126, 34, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #d35400, #e67e22); color: #fff;">🔥 ĐỀ THI THẬT SP 2025 (ĐANG MỞ)</span>
+          <h4>Quiz 8: Spring 2025 Final Exam (SP25 - FE3635)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Spring 2025 (FE3635) Đại học FPT gồm 60 câu hỏi sát thực tế, tổng hợp toàn bộ kiến thức kỳ thi.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=8&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=8&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #e67e22;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=8&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="8" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 9 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH TẦNG 9 (ĐANG MỞ)</span>
+          <h4>Quiz 9: Subsystem & Component-Based Design</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi: Thiết kế hệ thống con (Subsystems), Giao diện Ports/Interfaces, Tiêu chí cấu trúc phần mềm và Biểu đồ tương tác động Sequence/Communication.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=9&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=9&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=9&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="9" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 10 Card -->
+      <div class="quiz-card">
+        <div>
+          <span class="quiz-card-badge gold">✦ BÍ CẢNH TẦNG 10 (ĐANG MỞ)</span>
+          <h4>Quiz 10: Dynamic Interaction & Statecharts</h4>
+          <p class="quiz-desc">
+            Trọn bộ 60 câu hỏi: Máy trạng thái hữu hạn (Statecharts), Composite States, Orthogonal States, Sự kiện (Events) và Ánh xạ sang Kiến trúc triển khai.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🌐</span> Đề: English</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=10&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=10&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d4af37;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=10&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="10" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 11 Card -->
+      <div class="quiz-card" style="border-color: #9b59b6; box-shadow: 0 4px 16px rgba(155, 89, 182, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #8e44ad, #9b59b6); color: #fff;">🔥 ĐỀ THI THẬT FA 2024 (ĐANG MỞ)</span>
+          <h4>Quiz 11: Fall 2024 Final Exam (FA24 - FE3001)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Fall 2024 (FE3001) Đại học FPT gồm 60 câu hỏi thực chiến, tổng hợp kiến thức trọng tâm cho kỳ thi kết thúc môn.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=11&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=11&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #9b59b6;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=11&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="11" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 12 Card -->
+      <div class="quiz-card" style="border-color: #16a085; box-shadow: 0 4px 16px rgba(22, 160, 133, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #16a085, #1abc9c); color: #fff;">🔥 ĐỀ THI THẬT SU 2024 (ĐANG MỞ)</span>
+          <h4>Quiz 12: Summer 2024 Final Exam (SU24 - FE2316)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Summer 2024 (FE2316) Đại học FPT gồm 60 câu hỏi chuẩn xác, rèn luyện kỹ năng phân tích và giải quyết bài thi.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=12&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=12&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #16a085;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=12&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="12" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 13 Card -->
+      <div class="quiz-card" style="border-color: #e67e22; box-shadow: 0 4px 16px rgba(230, 126, 34, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #d35400, #e67e22); color: #fff;">🔥 ĐỀ THI THẬT SP 2024 (ĐANG MỞ)</span>
+          <h4>Quiz 13: Spring 2024 Final Exam (SP24 - FE1619)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Spring 2024 (FE1619) Đại học FPT gồm 60 câu hỏi bao quát toàn diện các chương trình từ UML, COMET đến Design Patterns.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=13&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=13&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #e67e22;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=13&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="13" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 14 Card -->
+      <div class="quiz-card" style="border-color: #2980b9; box-shadow: 0 4px 16px rgba(41, 128, 185, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #1f618d, #2980b9); color: #fff;">🔥 ĐỀ THI THẬT FA 2024 BLOCK 5 (ĐANG MỞ)</span>
+          <h4>Quiz 14: Fall 2024 Block 5 Final Exam (FA24 - FE3238)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Fall 2024 Block 5 (FE3238) Đại học FPT gồm 60 câu hỏi thực chiến, kiểm tra chuyên sâu về Statecharts, Subsystems và SOA.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=14&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=14&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #2980b9;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=14&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="14" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 15 Card -->
+      <div class="quiz-card" style="border-color: #8e44ad; box-shadow: 0 4px 16px rgba(142, 68, 173, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #6c3483, #8e44ad); color: #fff;">⚡ ĐỀ THI LẠI SP 2024 (ĐANG MỞ)</span>
+          <h4>Quiz 15: Spring 2024 Resit Exam (SP24 - RE1692)</h4>
+          <p class="quiz-desc">
+            Đề thi lại chính thức môn SWD392 học kỳ Spring 2024 (RE1692) Đại học FPT gồm 60 câu hỏi kiểm tra độ vững chắc về kiến trúc phần mềm và mô hình hóa.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi Lại RE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=15&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=15&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #8e44ad;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=15&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="15" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 16 Card -->
+      <div class="quiz-card" style="border-color: #d35400; box-shadow: 0 4px 16px rgba(211, 84, 0, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #ba4a00, #d35400); color: #fff;">⚡ ĐỀ THI LẠI SU 2024 (ĐANG MỞ)</span>
+          <h4>Quiz 16: Summer 2024 Resit Exam (SU24 - RE2471)</h4>
+          <p class="quiz-desc">
+            Đề thi lại chính thức môn SWD392 học kỳ Summer 2024 (RE2471) Đại học FPT gồm 60 câu hỏi chất lượng cao, giúp củng cố toàn bộ điểm mấu chốt trước kỳ thi.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi Lại RE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=16&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=16&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #d35400;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=16&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="16" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 17 Card -->
+      <div class="quiz-card" style="border-color: #27ae60; box-shadow: 0 4px 16px rgba(39, 174, 96, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #1e8449, #27ae60); color: #fff;">✦ ĐỀ THI KINH ĐIỂN FA 2022 (ĐANG MỞ)</span>
+          <h4>Quiz 17: Fall 2022 Final Exam (FA22 - FE165)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức học kỳ Fall 2022 (FE165) Đại học FPT gồm 59 câu hỏi chuẩn mực, chuyên sâu về 4+1 View, MVC, Pipe-and-Filter, Repository và Broker.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 59 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=17&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 59 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=17&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #27ae60;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=17&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="17" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 18 Card -->
+      <div class="quiz-card" style="border-color: #c0392b; box-shadow: 0 4px 16px rgba(192, 57, 43, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #962d22, #c0392b); color: #fff;">⚡ ĐỀ THI LẠI FA 2023 (ĐANG MỞ)</span>
+          <h4>Quiz 18: Fall 2023 Resit Exam (FA23 - RE1142)</h4>
+          <p class="quiz-desc">
+            Đề thi lại chính thức môn SWD392 học kỳ Fall 2023 (RE1142) Đại học FPT gồm 60 câu hỏi chuyên sâu về kiến trúc phần mềm, testing và transactions.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi Lại RE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=18&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=18&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #c0392b;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=18&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="18" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 19 Card -->
+      <div class="quiz-card" style="border-color: #e74c3c; box-shadow: 0 4px 16px rgba(231, 76, 60, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;">🔥 ĐỀ THI THẬT FA 2023 (ĐANG MỞ)</span>
+          <h4>Quiz 19: Fall 2023 Final Exam (FA23 - FE1069)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Fall 2023 (FE1069) Đại học FPT gồm 59 câu hỏi thực chiến, kiểm tra toàn diện về Statecharts, Tasks và Subsystems.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 59 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=19&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 59 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=19&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #e74c3c;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=19&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="19" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 20 Card -->
+      <div class="quiz-card" style="border-color: #3498db; box-shadow: 0 4px 16px rgba(52, 152, 219, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #2980b9, #3498db); color: #fff;">🔥 ĐỀ THI THẬT SU 2023 (ĐANG MỞ)</span>
+          <h4>Quiz 20: Summer 2023 Final Exam (SU23 - FE412)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Summer 2023 (FE412) Đại học FPT gồm 64 câu hỏi chọn lọc toàn diện từ ngân hàng đề thi chuẩn của bộ môn SE.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 64 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=20&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 64 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=20&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #3498db;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=20&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="20" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 21 Card -->
+      <div class="quiz-card" style="border-color: #1abc9c; box-shadow: 0 4px 16px rgba(26, 188, 156, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #16a085, #1abc9c); color: #fff;">🔥 ĐỀ THI THẬT SP 2023 (ĐANG MỞ)</span>
+          <h4>Quiz 21: Spring 2023 Final Exam (SP23 - FE399)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức môn SWD392 học kỳ Spring 2023 (FE399) Đại học FPT gồm 60 câu hỏi tổng quan từ Use Case Actors, State Machines đến Subsystem Design.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=21&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=21&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #1abc9c;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=21&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="21" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quiz 22 Card -->
+      <div class="quiz-card" style="border-color: #9b59b6; box-shadow: 0 4px 16px rgba(155, 89, 182, 0.2);">
+        <div>
+          <span class="quiz-card-badge" style="background: linear-gradient(135deg, #8e44ad, #9b59b6); color: #fff;">✦ ĐỀ THI SU 2023 BLOCK 10W (ĐANG MỞ)</span>
+          <h4>Quiz 22: Summer 2023 Block 10W Final Exam (SU23 - FE355)</h4>
+          <p class="quiz-desc">
+            Đề thi chính thức học kỳ Summer 2023 Block 10W (FE355) Đại học FPT gồm 60 câu hỏi nâng cao về Process Control, Data-Centric và Component Diagrams.
+          </p>
+
+          <div class="quiz-meta">
+            <span class="meta-item"><span>📖</span> 60 Câu Hỏi</span>
+            <span class="meta-item"><span>🎓</span> Đề Thi FE Đại Học FPT</span>
+            <span class="meta-item"><span>💡</span> Giải thích: Tiếng Việt</span>
+            <span class="meta-item"><span>⚡</span> Tức thì đúng/sai</span>
+          </div>
+        </div>
+
+        <div class="quiz-modes-list">
+          <a href="quiz.html?quiz=22&mode=practice&part=all" class="quiz-mode-btn">
+            <span>🗡️ Tự Do Ngộ Đạo (Trọn bộ 60 câu)</span>
+            <small>Có gợi ý & giải thích tức thì ➔</small>
+          </a>
+          <a href="quiz.html?quiz=22&mode=exam&part=all" class="quiz-mode-btn" style="border-color: #9b59b6;">
+            <span>⏳ Thi Thử Tông Môn (Bấm giờ 60p)</span>
+            <small>Đột phá cảnh giới ➔</small>
+          </a>
+          <a href="quiz.html?quiz=22&mode=answers" class="quiz-mode-btn btn-preview-answers" data-quiz="22" style="border-color: #16a085; background: rgba(22, 160, 133, 0.05); color: #0e6251;">
+            <span>👁️ Xem Trước Toàn Bộ Đáp Án</span>
+            <small style="color: #16a085; font-weight: 700;">Tra cứu bí kíp ➔</small>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- History & Guidelines -->
+    <div class="section-title" style="margin-top: 36px;">
+      <h3><span>📜</span> Hướng Dẫn Tu Luyện & Bàn Phím Tắt</h3>
+    </div>
+
+    <div class="portal-hero" style="text-align: left; padding: 22px 28px;">
+      <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; font-size: 0.95rem; line-height: 1.6;">
+        <li>⚡ <strong>Phím A / B / C / D</strong> hoặc <strong>1 / 2 / 3 / 4</strong>: Chọn đáp án tương ứng.</li>
+        <li>💡 <strong>Phím H</strong>: Bật/Tắt Tiên Nhân Chỉ Điểm (Gợi ý).</li>
+        <li>🚩 <strong>Phím F</strong>: Đánh dấu câu hỏi cần lưu ý xem lại.</li>
+        <li>➡️ <strong>Phím Mũi tên Phải (→)</strong>: Chuyển sang câu kế tiếp.</li>
+        <li>⬅️ <strong>Phím Mũi tên Trái (←)</strong>: Quay lại câu phía trước.</li>
+        <li>🖼️ <strong>Xem Ngọc Giản Gốc</strong>: Bấm nút để soi ảnh chụp gốc từ đề thi Quiz 1.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Modal Tra Cứu Toàn Bộ Câu Sai & Đáp Án -->
+  <div class="modal-backdrop" id="wrong-detail-modal">
+    <div class="cultivation-scroll-modal" style="max-width: 820px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e74c3c; padding-bottom: 12px; margin-bottom: 14px;">
+        <h3 style="color: #962d22; font-family: var(--font-heading); font-size: 1.45rem; display: flex; align-items: center; gap: 8px;">
+          <span>👹</span> TÂM MA LỤC - DANH SÁCH CÂU HỎI CẦN ÔN TẬP
+        </h3>
+        <button class="btn-cultivation" id="btn-close-wrong-modal" style="padding: 4px 12px; font-size: 0.82rem;">Đóng ✕</button>
+      </div>
+
+      <div class="wrong-list-modal-body" id="wrong-list-modal-body">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #ccc;">
+        <span id="wrong-modal-footer-count" style="font-weight: 700; color: #7f8c8d; font-size: 0.88rem;"></span>
+        <div style="display: flex; gap: 10px;">
+          <a href="quiz.html?quiz=1&mode=review" class="btn-cultivation primary" style="background: #c0392b; border-color: #f5b7b1;">
+            <span>🗡️</span> Bắt Đầu Làm Bài Ôn Tập
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="quiz1_data.js"></script>
+  <script src="quiz2_data.js"></script>
+  <script src="quiz3_data.js"></script>
+  <script src="quiz4_data.js"></script>
+  <script src="quiz5_data.js"></script>
+  <script src="quiz6_data.js"></script>
+  <script src="quiz7_data.js"></script>
+  <script src="quiz8_data.js"></script>
+  <script src="quiz9_data.js"></script>
+  <script src="quiz10_data.js"></script>
+  <script src="quiz11_data.js"></script>
+  <script src="quiz12_data.js"></script>
+  <script src="quiz13_data.js"></script>
+  <script src="quiz14_data.js"></script>
+  <script src="quiz15_data.js"></script>
+  <script src="quiz16_data.js"></script>
+  <script src="quiz17_data.js"></script>
+  <script src="quiz18_data.js"></script>
+  <script src="quiz19_data.js"></script>
+  <script src="quiz20_data.js"></script>
+  <script src="quiz21_data.js"></script>
+  <script src="quiz22_data.js"></script>
+  <script src="sword_audio.js"></script>
+  <script src="wrong_manager.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Refresh UI Stats and Wrong Questions Count
+      function refreshWrongUI() {
+        const wrongCount = window.wrongManager ? window.wrongManager.getCount() : 0;
+        
+        document.getElementById('stat-wrong-count').textContent = wrongCount;
+        document.getElementById('wrong-count-header').textContent = `${wrongCount} câu`;
+        document.getElementById('hub-wrong-badge').textContent = `${wrongCount} câu ➔`;
+
+        const startReviewBtn = document.getElementById('btn-start-review');
+        if (startReviewBtn) {
+          if (wrongCount === 0) {
+            startReviewBtn.style.opacity = '0.5';
+            startReviewBtn.style.pointerEvents = 'none';
+          } else {
+            startReviewBtn.style.opacity = '1';
+            startReviewBtn.style.pointerEvents = 'auto';
+          }
+        }
+      }
+
+      refreshWrongUI();
+      window.addEventListener('swd_wrong_updated', refreshWrongUI);
+
+      // Load History Stats
+      try {
+        const history = JSON.parse(localStorage.getItem('swd_quiz_history') || '[]');
+        document.getElementById('stat-completed-times').textContent = history.length;
+
+        let maxPercent = 0;
+        let highestRealm = "Luyện Khí Kỳ";
+        history.forEach(item => {
+          if (item.percent > maxPercent) {
+            maxPercent = item.percent;
+            highestRealm = item.realm || highestRealm;
+          }
+        });
+
+        if (history.length > 0) {
+          document.getElementById('stat-highest-score').textContent = `${maxPercent}%`;
+          document.getElementById('user-realm-title').textContent = highestRealm;
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+
+      // Audio Controls (BGM & SFX)
+      const bgmBtn = document.getElementById('btn-bgm-toggle');
+      const bgmText = document.getElementById('bgm-text');
+      const bgmIcon = document.getElementById('bgm-icon');
+      const sfxBtn = document.getElementById('btn-sfx-toggle');
+      const sfxText = document.getElementById('sfx-text');
+      const volSlider = document.getElementById('bgm-vol-slider');
+
+      function updateAudioUI() {
+        if (!window.cultivationAudio) return;
+        const bgmOn = window.cultivationAudio.bgmEnabled;
+        const sfxOn = window.cultivationAudio.sfxEnabled;
+
+        if (bgmBtn && bgmText && bgmIcon) {
+          bgmText.textContent = bgmOn ? 'Lan Đình Tự: Bật' : 'Lan Đình Tự: Tắt';
+          bgmIcon.textContent = bgmOn ? '🎶' : '🎵';
+          bgmBtn.classList.toggle('active', bgmOn);
+        }
+        if (sfxBtn && sfxText) {
+          sfxBtn.classList.toggle('active', sfxOn);
+          sfxText.textContent = sfxOn ? 'Hiệu Ứng' : 'Hiệu Ứng: Tắt';
+        }
+        if (volSlider) {
+          volSlider.value = window.cultivationAudio.bgmVolume;
+        }
+      }
+
+      updateAudioUI();
+
+      if (bgmBtn) {
+        bgmBtn.addEventListener('click', () => {
+          if (window.cultivationAudio) {
+            window.cultivationAudio.toggleBGM();
+            updateAudioUI();
+          }
+        });
+      }
+
+      if (sfxBtn) {
+        sfxBtn.addEventListener('click', () => {
+          if (window.cultivationAudio) {
+            window.cultivationAudio.toggleSFX();
+            updateAudioUI();
+          }
+        });
+      }
+
+      if (volSlider) {
+        volSlider.addEventListener('input', (e) => {
+          if (window.cultivationAudio) {
+            window.cultivationAudio.setBGMVolume(parseFloat(e.target.value));
+          }
+        });
+      }
+
+      // Clear Wrong Questions List
+      const clearBtn = document.getElementById('btn-clear-wrong-list');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          const count = window.wrongManager ? window.wrongManager.getCount() : 0;
+          if (count === 0) {
+            alert("Tâm cảnh thanh tịnh! Hiện tại không có câu hỏi nào trong danh sách câu sai.");
+            return;
+          }
+          if (confirm(`Đạo hữu có chắc chắn muốn làm mới toàn bộ ${count} câu hỏi trong Tâm Ma Lục?`)) {
+            window.wrongManager.clearAll();
+            window.wrongManager.showToast("Đã thanh tẩy toàn bộ Tâm Ma Lục!");
+            refreshWrongUI();
+          }
+        });
+      }
+
+      // Open Wrong Questions Detail Modal
+      const modal = document.getElementById('wrong-detail-modal');
+      const btnOpenModal = document.getElementById('btn-open-wrong-modal');
+      const btnCloseModal = document.getElementById('btn-close-wrong-modal');
+      const modalBody = document.getElementById('wrong-list-modal-body');
+      const modalFooterCount = document.getElementById('wrong-modal-footer-count');
+
+      if (btnOpenModal && modal && modalBody) {
+        btnOpenModal.addEventListener('click', () => {
+          renderWrongListModal();
+          modal.classList.add('show');
+        });
+      }
+
+      if (btnCloseModal && modal) {
+        btnCloseModal.addEventListener('click', () => {
+          modal.classList.remove('show');
+        });
+      }
+
+      // Render Wrong Questions inside Modal
+      function renderWrongListModal() {
+        modalBody.innerHTML = '';
+        const wrongList = window.wrongManager ? window.wrongManager.getAll() : [];
+        modalFooterCount.textContent = `Tổng cộng: ${wrongList.length} câu sai cần ôn tập`;
+
+        if (wrongList.length === 0) {
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: #27ae60;">
+              <div style="font-size: 48px; margin-bottom: 12px;">✨</div>
+              <h4 style="font-size: 1.25rem; font-family: var(--font-heading); margin-bottom: 8px;">Tâm Cảnh Hoàn Toàn Thanh Tịnh!</h4>
+              <p style="color: #555;">Đạo hữu chưa có câu hỏi nào bị ghi vào Tâm Ma Lục. Hãy bắt đầu làm đề Quiz 1 để luyện công!</p>
+            </div>
+          `;
+          return;
+        }
+
+        const dataMap = {};
+        Array.from({length: 22}, (_, i) => i + 1).forEach(num => {
+          const arr = window['QUIZ' + num + '_DATA'];
+          if (arr && Array.isArray(arr)) {
+            arr.forEach(q => { dataMap[q.id] = q; });
+          }
+        });
+
+        wrongList.forEach((item, idx) => {
+          const qData = dataMap[item.id];
+          const div = document.createElement('div');
+          div.className = 'wrong-card-item';
+
+          const questionText = qData ? qData.question : (item.questionText || `Câu hỏi #${item.id}`);
+          const correctAnswer = qData ? qData.answer : (item.correctAnswer || '?');
+          const yourAnswer = item.yourAnswer || 'Chưa rõ';
+          const summary = qData && qData.explanation ? qData.explanation.summary : '';
+
+          div.innerHTML = `
+            <div class="wrong-card-meta">
+              <span style="font-weight: 800; color: #c0392b;">Tầng #${item.id} • Lần làm sai: ${item.timesWrong || 1}</span>
+              <span style="color: #7f8c8d;">${item.addedAt || ''}</span>
+            </div>
+            <h5>${questionText}</h5>
+            <div class="wrong-card-ans" style="margin-bottom: 8px;">
+              <span style="color: #c0392b; font-weight: 700;">✗ Bạn đã chọn: ${yourAnswer}</span> | 
+              <span style="color: #008f68; font-weight: 700;">✓ Đáp án đúng: ${correctAnswer}</span>
+            </div>
+            ${summary ? `<div style="font-size: 0.88rem; background: #f0faf9; border-left: 3px solid #2cb5bc; padding: 8px 12px; border-radius: 4px; color: #12575e; margin-bottom: 8px;"><strong>Tâm pháp:</strong> ${summary}</div>` : ''}
+            <div style="display: flex; justify-content: flex-end; gap: 8px;">
+              <button class="btn-cultivation btn-remove-item" data-id="${item.id}" style="padding: 3px 10px; font-size: 0.78rem; background: #e8f8f5; border-color: #2ecc71; color: #16a085;">
+                ✓ Đã Hiểu (Xóa câu này)
+              </button>
+            </div>
+          `;
+
+          const removeBtn = div.querySelector('.btn-remove-item');
+          removeBtn.addEventListener('click', (e) => {
+            const qid = Number(e.target.dataset.id);
+            window.wrongManager.remove(qid);
+            renderWrongListModal();
+            refreshWrongUI();
+          });
+
+          modalBody.appendChild(div);
+        });
+      }
+    });
+  </script>
+  <script src="sword_cursor.js"></script>
+</body>
+</html>
