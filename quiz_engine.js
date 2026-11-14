@@ -210,21 +210,31 @@
         item.className = 'option-item';
         item.dataset.key = opt.key;
 
+        let badgeHtml = '';
+
         // Visual states
         if (revealAnswer) {
           item.classList.add('disabled');
           if (opt.key === q.answer) {
             item.classList.add('correct');
+            if (hasAnswered && opt.key === selected) {
+              badgeHtml = `<span class="option-status-badge correct-chosen">✓ Bạn chọn chính xác</span>`;
+            } else {
+              badgeHtml = `<span class="option-status-badge correct-answer">✓ Đáp án đúng</span>`;
+            }
           } else if (opt.key === selected) {
             item.classList.add('wrong');
+            badgeHtml = `<span class="option-status-badge wrong-chosen">✗ Bạn đã chọn</span>`;
           }
         } else if (hasAnswered && opt.key === selected) {
           item.classList.add('selected');
+          badgeHtml = `<span class="option-status-badge is-selected">🗡️ Đã chọn</span>`;
         }
 
         item.innerHTML = `
           <div class="option-key">${opt.key}</div>
           <div class="option-text">${opt.text}</div>
+          ${badgeHtml}
           <div class="option-sword-icon">🗡️</div>
         `;
 
@@ -455,7 +465,15 @@
         btn.classList.add('flagged');
       }
 
-      btn.addEventListener('click', () => renderQuestion(idx));
+      btn.addEventListener('click', () => {
+        renderQuestion(idx);
+        if (window.innerWidth <= 768) {
+          const qPane = document.querySelector('.question-pane');
+          if (qPane) {
+            window.scrollTo({ top: qPane.offsetTop - 10, behavior: 'smooth' });
+          }
+        }
+      });
       grid.appendChild(btn);
     });
   }
