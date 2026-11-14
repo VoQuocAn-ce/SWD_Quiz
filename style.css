@@ -271,6 +271,9 @@ body {
    DAOIST TICKER / MARQUEE ANNOUNCEMENT BAR (THÔNG BÁO CHỮ CHẠY)
    =================================================================== */
 .daoist-ticker-wrap {
+  position: sticky;
+  top: 10px;
+  z-index: 500;
   width: 100%;
   display: flex;
   align-items: center;
@@ -280,11 +283,12 @@ body {
   border-radius: 12px;
   padding: 7px 14px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 14px rgba(211, 84, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(18, 87, 94, 0.12), 0 2px 8px rgba(211, 84, 0, 0.22);
   box-sizing: border-box;
   overflow: hidden;
-  position: relative;
   gap: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .daoist-ticker-badge {
@@ -1438,7 +1442,7 @@ body {
   height: 100%;
   background: rgba(14, 43, 48, 0.78);
   backdrop-filter: blur(8px);
-  z-index: 100;
+  z-index: 2000;
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -1706,6 +1710,23 @@ body {
   /* Layout tổng quát */
   .app-container {
     padding: 10px 10px 40px;
+  }
+
+  .daoist-ticker-wrap {
+    top: 6px;
+    padding: 6px 10px;
+    margin-bottom: 14px;
+    gap: 8px;
+  }
+
+  .daoist-ticker-badge {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+  }
+
+  .daoist-ticker-item {
+    font-size: 0.82rem;
+    padding-right: 36px;
   }
 
   /* Header thanh sảnh chính & phòng thi */
